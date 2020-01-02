@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.baiduiotdemo.dao.ApplianceMapper">
+    <resultMap type="com.example.baiduiotdemo.pojo.Appliance" id = "applianceMap">
+        <id column="id" property="id" />
+        <id column="user_id" property="userId"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="appliance_types" property="applianceTypes" jdbcType="VARCHAR" javaType="list" typeHandler="com.example.baiduiotdemo.typehandler.ListTypeHandler"/>
+        <id column="appliance_id" property="applianceId"/>
+        <id column="mac" property="mac"/>
+        <id column="friendly_name" property="friendlyName"/>
+        <id column="friendly_description" property="friendlyDescription"/>
+        <id column="is_reachable" property="isReachable"/>
+        <id column="actions" property="actions" jdbcType="VARCHAR" javaType="list" typeHandler="com.example.baiduiotdemo.typehandler.ListTypeHandler"/>
+        <id column="additional_appliance_details" property="additionalApplianceDetails"  jdbcType="VARCHAR" javaType="com.alibaba.fastjson.JSONObject" typeHandler="com.example.baiduiotdemo.typehandler.JSONTypeHandler" />
+        <id column="is_delete" property="isDelete"/>
+        <id column="nickNames" property="nickNames" jdbcType="VARCHAR" javaType="list" typeHandler="com.example.baiduiotdemo.typehandler.ListTypeHandler"/>
+    </resultMap>
+    <select id="getApplianceByUserIdApplianceId" resultMap="applianceMap">
+        select * from appliance_tbl where user_id = #{userId} and appliance_id = #{applianceId} and is_delete = 0
+    </select>
+    <select id="getAllApplianceByUserId" resultMap="applianceMap">
+        select * from appliance_tbl where user_id = #{userId} and is_delete = 0
+    </select>
+    <insert id="insertAppliance" parameterType="com.example.baiduiotdemo.pojo.Appliance">
+        insert into appliance_tbl (user_id, create_time, update_time, appliance_types, appliance_id, mac, friendly_name, friendly_description,
+        is_reachable, actions, additional_appliance_details, is_delete, nicknames) values (#{userId}, #{createTime}, #{updateTime}, #{applianceTypes},
+        #{applianceId}, #{mac}, #{friendlyName}, #{friendlyDescription}, #{isReachable}, #{actions}, #{additionalApplianceDetails}, #{isDelete}, #{nicknames})
+    </insert>
+</mapper>
